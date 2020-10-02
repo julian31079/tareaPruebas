@@ -22,28 +22,63 @@ public class Conjunto implements Componente {
 
     public void crearUsuario(String nombre, String correo, String pass) {
         Componente usu = new Usuario();
-        boolean comp = false;
+        boolean comp = false, comp2 = false;
         if (pass.length() >= 8) {
             for (char c : nombre.toCharArray()) {
                 if (c < 'A' && c > 'Z') {
-                    comp=true;
+                    comp = true;
                     JOptionPane.showMessageDialog(null, "Caracter especial no aceptado");
 
                 }
             }
             if (!comp) {
-                usu.setNombre(nombre);
-                usu.setClave(pass);
-                usu.setCorreo(correo);
-                usuarios.add(usu);
+                for (Componente c : usuarios) {
+                    if (c.getCorreo().equals(correo)) {
+                        comp2 = true;
+                    }
+                }
+                if (!comp2) {
+                    usu.setNombre(nombre);
+                    usu.setClave(pass);
+                    usu.setCorreo(correo);
+                    usuarios.add(usu);
+                }
+
             }
 
         } else {
             JOptionPane.showMessageDialog(null, "Contraseña minimo de 8 caracteres");
         }
     }
-    public void eliminarUsuario(String correo,String password){
-    
+
+    public void eliminarUsuario(Componente usuario) {
+        try {
+            for (Componente u : usuarios) {
+                if (u.equals(usuario)) {
+                    u = null;
+                }
+            }
+        } catch (Exception e) {
+        }
+        try {
+            for (Componente u : usuarios) {
+                if (u == null) {
+                    usuarios.remove(u);
+                }
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
+    public void modificarUusario(Componente usuario) {
+        try {
+            for (Componente c : usuarios) {
+
+            }
+        } catch (Exception e) {
+        }
+
     }
 
     @Override

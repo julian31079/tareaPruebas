@@ -27,7 +27,6 @@ public class UsuarioTest {
         pruebaU.setNombre("juan");
         pruebaU.setCorreo("jp@ejemplo.com");
         pruebaU.setClave("123");
-
         String elNombre = pruebaU.getNombre();
         String elCorreo = pruebaU.getCorreo();
         String laClave = pruebaU.getClave();

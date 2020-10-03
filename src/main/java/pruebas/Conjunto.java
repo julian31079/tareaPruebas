@@ -69,6 +69,10 @@ public class Conjunto implements Componente {
 
     public boolean actualizarUsuario(String nombre, String correo, String pass, String oldPass) {
         int i = 0;
+        if(!(correo.contains("@") && correo.contains("."))){
+            System.out.println("La estructura del correo electronico es incorrecta");
+            return false;
+        }
         for (Componente c : usuarios) {
             if (c.getCorreo().equals(correo)) {
                 if (oldPass.equals(c.getClave())) {
@@ -90,6 +94,10 @@ public class Conjunto implements Componente {
     }
 
     public boolean eliminarUsuario(String correo, String pass) {
+        if(!(correo.contains("@") && correo.contains("."))){
+            System.out.println("La estructura del correo electronico es incorrecta");
+            return false;
+        }
         for (Componente c : usuarios) {
             if (c.getCorreo().equals(correo)) {
                 if (c.getClave().equals(pass)) {

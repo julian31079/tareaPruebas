@@ -12,7 +12,9 @@ import javax.swing.JOptionPane;
  *
  * @author jvh
  */
+
 public class Conjunto implements Componente {
+
 
     ArrayList<Componente> usuarios;
 
@@ -20,65 +22,82 @@ public class Conjunto implements Componente {
         this.usuarios = new ArrayList<>();
     }
 
-    public void crearUsuario(String nombre, String correo, String pass) {
-        Componente usu = new Usuario();
-        boolean comp = false, comp2 = false;
-        if (pass.length() >= 8) {
-            for (char c : nombre.toCharArray()) {
-                if (c < 'A' && c > 'Z') {
-                    comp = true;
-                    JOptionPane.showMessageDialog(null, "Caracter especial no aceptado");
-
-                }
-            }
-            if (!comp) {
-                for (Componente c : usuarios) {
-                    if (c.getCorreo().equals(correo)) {
-                        comp2 = true;
-                    }
-                }
-                if (!comp2) {
-                    usu.setNombre(nombre);
-                    usu.setClave(pass);
-                    usu.setCorreo(correo);
-                    usuarios.add(usu);
-                }
-
-            }
-
+    public boolean crearUsuario(String nombre, String correo, String pass) {
+        if (pass.length() <= 8) {
+            System.out.println("La contraseña debe tener al menos 8 caracteres");
+            return false;
         } else {
-            JOptionPane.showMessageDialog(null, "Contrase�a minimo de 8 caracteres");
-        }
-    }
-
-    public void eliminarUsuario(Componente usuario) {
-        try {
-            for (Componente u : usuarios) {
-                if (u.equals(usuario)) {
-                    u = null;
+            for (char z : pass.toCharArray()) {
+                if (z < 48 || z > 122) {
+                    System.out.println("La contraseña contiene caracteres especiales, \nEsto no es admitido en el sistema.");
+                    return false;
                 }
             }
-        } catch (Exception e) {
-        }
-        try {
-            for (Componente u : usuarios) {
-                if (u == null) {
-                    usuarios.remove(u);
-                }
-            }
-        } catch (Exception e) {
         }
 
+        for (Componente c : this.usuarios) {
+            if (c.getCorreo().equals(correo)) {
+                System.out.println("El correo ingresado ya se encuentra registrado.");
+                return false;
+            }
+        }
+        Componente usu = new Usuario();
+        usu.setNombre(nombre);
+        usu.setCorreo(correo);
+        usu.setClave(pass);
+        this.usuarios.add(usu);
+        return true;
     }
 
-    public void modificarUusario(Componente usuario) {
-        try {
-            for (Componente c : usuarios) {
-
+    public ArrayList<Componente> getList() {
+        return usuarios;
+    }
+    public Componente getUsuario(String correo) {
+        for(Componente c: usuarios){
+            if(c.getCorreo().equals(correo)){
+                return c;
             }
-        } catch (Exception e) {
         }
+        return null;
+    }
 
+    public boolean actualizarUsuario(String nombre, String correo, String pass, String oldPass) {
+        int i = 0;
+        for (Componente c : usuarios) {
+            if (c.getCorreo().equals(correo)) {
+                if (oldPass.equals(c.getClave())) {
+                    c.setNombre(nombre);
+                    c.setCorreo(correo);
+                    c.setClave(pass);
+                    usuarios.set(i, c);
+                    System.out.println("Actualizacion con exito.");
+                    return true;
+                } else {
+                    System.out.println("Contraseña actual incorrecta");
+                    return false;
+                }
+            }
+            i++;
+        }
+        System.out.println("No se encuentra el usuario con el correo: " + correo);
+        return false;
+    }
+
+    public boolean eliminarUsuario(String correo, String pass) {
+        for (Componente c : usuarios) {
+            if (c.getCorreo().equals(correo)) {
+                if (c.getClave().equals(pass)) {
+                    usuarios.remove(c);
+                    System.out.println("Eliminado con exito.");
+                    return true;
+                } else {
+                    System.out.println("La contraseña es incorrecta.");
+                    return false;
+                }
+            }
+        }
+        System.out.println("No se encuentra el usuario con el correo: " + correo);
+        return false;
     }
 
     @Override

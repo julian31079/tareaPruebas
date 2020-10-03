@@ -34,6 +34,10 @@ public class Conjunto implements Componente {
                 }
             }
         }
+        if(!(correo.contains("@") && correo.contains("."))){
+            System.out.println("La estructura del correo electronico es incorrecta");
+            return false;
+        }
 
         for (Componente c : this.usuarios) {
             if (c.getCorreo().equals(correo)) {
@@ -41,6 +45,7 @@ public class Conjunto implements Componente {
                 return false;
             }
         }
+
         Componente usu = new Usuario();
         usu.setNombre(nombre);
         usu.setCorreo(correo);
@@ -52,6 +57,7 @@ public class Conjunto implements Componente {
     public ArrayList<Componente> getList() {
         return usuarios;
     }
+
     public Componente getUsuario(String correo) {
         for(Componente c: usuarios){
             if(c.getCorreo().equals(correo)){
